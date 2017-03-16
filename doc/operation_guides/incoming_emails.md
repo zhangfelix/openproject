@@ -1,4 +1,4 @@
-# Incoming Emails
+# Incoming emails
 
 OpenProject is able to receive emails and create and update work packages and reply in forums depending on the content of the email.
 
@@ -73,9 +73,9 @@ If you set a default value it will be used when creating a work package.
 But then no other value is possible (even when you update the work package) unless you specify this with the use of `allow_override`. Some attributes (like `type, status, priority`) are only changeable if you specify this via `allow_override`. But notice: Some attributes have to specified in another format here, e.g. Assignee can be allowed to be overriden with `allow_override=assigned_to`.
 
 
-## Format of the Emails
+## Format of the emails
 
-### Work Packages
+### Work packages
 
 #### Sending user address
 
@@ -125,6 +125,6 @@ If you create or update a work package via email the attachments of the email wi
 
 If you create a work package via email and sent it to another email (to or bcc) OpenProject will search for a user with this email and add it as watcher.
 
-### Truncate Emails
+### Truncate emails
 
 In the administator's setting you can specify lines after which an email will not be parsed anymore. That is useful if you want to reply to an email automatically sent to you from OpenProject. E.g. you could set it to `--Truncate here--` and insert this line into your email below the updates you want to perform. 
