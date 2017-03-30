@@ -181,7 +181,7 @@ module API
                  }
 
         self.to_eager_load = [:query_menu_item,
-                              project: { work_package_custom_fields: :translations }]
+                              project: :work_package_custom_fields]
 
         private
 
