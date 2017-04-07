@@ -134,7 +134,6 @@ require('./messages');
 require('./models');
 require('./services');
 require('./time_entries');
-require('./timelines');
 require('./ui_components');
 require('./work_packages');
 

@@ -270,17 +270,6 @@ module Project::Copy
       end
     end
 
-    # copies timeline associations from +project+
-    def copy_timelines(project)
-      project.timelines.each do |timeline|
-        copied_timeline = Timeline.new
-        copied_timeline.attributes = timeline.attributes.dup.except('id', 'project_id', 'options')
-        copied_timeline.options = timeline.options if timeline.options.present?
-        copied_timeline.project = self
-        copied_timeline.save
-      end
-    end
-
     # copies reporting associations from +project+
     def copy_reportings(project)
       project.reportings_via_source.each do |reporting|
