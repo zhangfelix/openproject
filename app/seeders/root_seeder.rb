@@ -35,6 +35,7 @@ class RootSeeder < Seeder
   def initialize
     require 'basic_data_seeder'
     require 'demo_data_seeder'
+    require 'development_data_seeder'
 
     rails_engines.each { |engine| load_engine_seeders! engine }
   end
@@ -58,6 +59,11 @@ class RootSeeder < Seeder
 
       puts '*** Seeding demo data'
       DemoDataSeeder.new.seed!
+
+      if Rails.env.development?
+        puts '*** Seeding development data'
+        DevelopmentDataSeeder.new.seed!
+      end
 
       rails_engines.each do |engine|
         puts "*** Loading #{engine.engine_name} seed data"
