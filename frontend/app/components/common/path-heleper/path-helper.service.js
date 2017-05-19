@@ -37,7 +37,6 @@ function PathHelper() {
   return PathHelper = {
     staticBase:   appBasePath,
 
-    apiV2: appBasePath + '/api/v2',
     apiV3: appBasePath + '/api/v3',
 
     activityPath: function() {
@@ -148,11 +147,6 @@ function PathHelper() {
       }
 
       return path;
-    },
-
-    // API V2
-    apiV2ProjectsPath: function() {
-      return PathHelper.apiV2 + '/projects';
     },
 
     // API V3
