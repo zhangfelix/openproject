@@ -34,7 +34,7 @@ class ProjectsController < ApplicationController
 
   helper :timelines
 
-  before_action :disable_api
+  before_action :disable_api, except: :level_list
   before_action :find_project, except: [:index, :level_list, :new, :create]
   before_action :authorize, only: [
     :show, :settings, :edit, :update, :modules, :types, :custom_fields
@@ -186,7 +186,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-
   def types
     if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
       flash[:notice] = l('notice_successful_update')
@@ -251,6 +250,14 @@ class ProjectsController < ApplicationController
     @project_to_destroy = @project
 
     hide_project_in_layout
+  end
+
+  def level_list
+    @projects = Project.project_level_list(Project.visible)
+
+    respond_to do |format|
+      format.api
+    end
   end
 
   private
