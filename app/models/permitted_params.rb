@@ -256,6 +256,14 @@ class PermittedParams
     params.require(:type).permit(*self.class.permitted_attributes[:move_to])
   end
 
+  def timelog
+    params.permit(:period,
+                  :period_type,
+                  :from,
+                  :to,
+                  criterias: [])
+  end
+
   def search
     params.permit(*self.class.permitted_attributes[:search])
   end
@@ -429,6 +437,10 @@ class PermittedParams
     params.fetch(:reporting, {}).permit(:reporting_to_project_id,
                                         :reported_project_status_id,
                                         :reported_project_status_comment)
+  end
+
+  def repository_diff
+    params.permit(:rev, :rev_to, :project, :action, :controller)
   end
 
   def membership
