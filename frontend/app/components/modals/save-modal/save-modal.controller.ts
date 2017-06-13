@@ -41,6 +41,7 @@ function SaveModalController(this:any,
     wpListService
       .create(name)
       .then(() => {
+        wpListService.toggleStarred();
         saveModal.deactivate();
       });
   };

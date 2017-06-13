@@ -40,11 +40,13 @@ import Moment = moment.Moment;
 import {WorkPackageTableRefreshService} from "../../wp-table-refresh-request.service";
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 import {timelineRowId} from "../../../wp-fast-table/builders/timeline/timeline-row-builder";
+import {QueryDmService} from '../../../api/api-v3/hal-resource-dms/query-dm.service';
 
 export class WorkPackageTimelineCell {
   public wpCacheService: WorkPackageCacheService;
   public wpTableRefresh: WorkPackageTableRefreshService;
   public states: States;
+  public QueryDm:QueryDmService;
   public loadingIndicator: LoadingIndicatorService;
 
   private wpElement: HTMLDivElement|null = null;
@@ -133,7 +135,9 @@ export class WorkPackageTimelineCell {
         cell[0],
         this.wpElement,
         renderer,
-        renderInfo);
+        renderInfo,
+        this.states,
+        this.QueryDm);
     }
 
     return cell;
@@ -163,4 +167,4 @@ export class WorkPackageTimelineCell {
 
 }
 
-WorkPackageTimelineCell.$inject = ['loadingIndicator', 'wpCacheService', 'wpTableRefresh', 'states', 'TimezoneService'];
+WorkPackageTimelineCell.$inject = ['loadingIndicator', 'wpCacheService', 'wpTableRefresh', 'states', 'TimezoneService', 'QueryDm'];

@@ -36,6 +36,8 @@ import * as moment from 'moment';
 import Moment = moment.Moment;
 import {WorkPackageTableRefreshService} from "../../wp-table-refresh-request.service";
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
+import {QueryDmService} from '../../../api/api-v3/hal-resource-dms/query-dm.service';
+import {States} from '../../../states.service';
 
 const classNameBar = "bar";
 export const classNameLeftHandle = "leftHandle";
@@ -47,10 +49,12 @@ export function registerWorkPackageMouseHandler(this: void,
                                                 wpCacheService: WorkPackageCacheService,
                                                 wpTableRefresh: WorkPackageTableRefreshService,
                                                 loadingIndicator: LoadingIndicatorService,
-                                                cell: HTMLElement,
-                                                bar: HTMLDivElement,
-                                                renderer: TimelineCellRenderer,
-                                                renderInfo: RenderInfo) {
+                                                cell:HTMLElement,
+                                                bar:HTMLDivElement,
+                                                renderer:TimelineCellRenderer,
+                                                renderInfo:RenderInfo,
+                                                states:States,
+                                                queryDm:QueryDmService) {
 
   let mouseDownStartDay: number|null = null;// also flag to signal active drag'n'drop
 
@@ -219,14 +223,20 @@ export function registerWorkPackageMouseHandler(this: void,
     }
   }
 
-  function saveWorkPackage(workPackage: WorkPackageResourceInterface) {
+  function saveWorkPackage(workPackage:WorkPackageResourceInterface) {
     if (!(workPackage.dirty || workPackage.isNew)) {
       return;
     }
 
     loadingIndicator.table.promise = wpCacheService.saveWorkPackage(workPackage)
       .then(() => {
-        wpTableRefresh.request(true, `Moved work package ${workPackage.id} through timeline`);
+        const ids = _.map(states.table.rendered.value!.renderedOrder, row => row.workPackageId);
+        loadingIndicator.table.promise = queryDm.loadIdsUpdatedSince(ids, workPackage.updatedAt).then(workPackageCollection => {
+          wpCacheService.updateWorkPackageList(workPackageCollection.elements);
+
+          wpTableRefresh.request(false, `Moved work package ${workPackage.id} through timeline`);
+        });
+
       })
       .catch(() => {
         if (!workPackage.isNew) {
