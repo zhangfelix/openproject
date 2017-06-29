@@ -304,7 +304,7 @@ describe('optionsDropdown Directive', function() {
 
         var item = getHierarchyMenuItem();
 
-        expect(angular.element(item).find('.no-icon').length).to.eq(1);
+        expect(angular.element(item).find('.icon-no-hierarchy').length).to.eq(1);
       });
 
       it('displays active if the service tells it to', function() {
@@ -315,17 +315,7 @@ describe('optionsDropdown Directive', function() {
         // named differently if active
         var item = getMenuItem(I18n.t('js.toolbar.settings.hide_hierarchy'));
 
-        expect(angular.element(item).find('.icon-checkmark').length).to.eq(1);
-      });
-
-      it('is inactive if the query is grouped', function() {
-        wpTableGroupBy['isEnabled'] = true;
-
-        compile();
-
-        var item = getHierarchyMenuItem();
-
-        expect(angular.element(item).filter('.inactive').length).to.eq(1);
+        expect(angular.element(item).find('.icon-hierarchy').length).to.eq(1);
       });
 
       it('forwards to the service on click', function() {
